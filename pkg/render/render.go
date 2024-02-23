@@ -3,6 +3,7 @@ package render
 import (
 	"bytes"
 	"github.com/codykoscielski/learn-go/pkg/config"
+	"github.com/codykoscielski/learn-go/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -17,7 +18,7 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // RenderTemplate Render template using HTML
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -33,7 +34,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	}
 
 	buf := new(bytes.Buffer)
-	_ = t.Execute(buf, nil)
+	_ = t.Execute(buf, td)
 	//Render the template
 	_, err := buf.WriteTo(w)
 	if err != nil {

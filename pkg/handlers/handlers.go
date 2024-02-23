@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/codykoscielski/learn-go/pkg/config"
+	"github.com/codykoscielski/learn-go/pkg/models"
 	"github.com/codykoscielski/learn-go/pkg/render"
 	"net/http"
 )
@@ -23,9 +24,15 @@ func NewHandlers(r *Repository) {
 }
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.gohtml")
+	render.RenderTemplate(w, "home.page.gohtml", &models.TemplateData{})
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.gohtml")
+	// Perform some logic
+	stringMap := make(map[string]string)
+	stringMap["test"] = "hello, again"
+	// Send data to template
+	render.RenderTemplate(w, "about.page.gohtml", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
